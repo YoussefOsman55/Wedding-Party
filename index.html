@@ -1,1 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Wedding Invitation</title>
+  <meta name="theme-color" content="#3b0812" />
+  <!-- ملحوظة: العنوان ده بيتغير تلقائي من script.js (CONFIG.pageTitle) -->
 
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:wght@400;500;600&family=Cinzel:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ============ شاشة الافتتاح (الستارة + Tap to open) ============ -->
+  <div class="intro" id="intro">
+    <div class="intro-curtain left"></div>
+    <div class="intro-curtain right"></div>
+    <button class="intro-btn" id="openBtn" type="button">
+      <span class="monogram" data-monogram></span>
+      <span class="intro-names"><span data-bind="groomName"></span> &amp; <span data-bind="brideName"></span></span>
+      <span class="intro-tap">Tap to open</span>
+    </button>
+  </div>
+
+  <!-- زرار الصوت -->
+  <button class="music-btn" id="musicBtn" type="button" aria-label="Toggle music" hidden>
+    <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path id="musicIcon" fill="currentColor" d="M12 3v10.55A4 4 0 1 0 14 17V7h4V3z"/></svg>
+  </button>
+
+  <audio id="song" loop preload="auto"></audio>
+
+  <main class="page">
+
+    <!-- ============ 1) الهيرو: الأسماء + العد التنازلي + السلم ============ -->
+    <section class="hero">
+      <div class="pillar pillar-l"></div>
+      <div class="pillar pillar-r"></div>
+      <div class="drape drape-l"><i class="tassel"></i></div>
+      <div class="drape drape-r"><i class="tassel"></i></div>
+
+      <div class="hero-content reveal">
+        <div class="monogram big" data-monogram></div>
+        <p class="small-caps" data-bind="introLine"></p>
+        <div class="names">
+          <span class="name" data-bind="groomName"></span>
+          <span class="amp">&amp;</span>
+          <span class="name" data-bind="brideName"></span>
+        </div>
+        <p class="small-caps" data-bind="inviteLine"></p>
+
+        <div class="countdown" id="countdown" aria-label="Countdown">
+          <span id="cdD">00</span><b>:</b><span id="cdH">00</span><b>:</b><span id="cdM">00</span><b>:</b><span id="cdS">00</span>
+        </div>
+        <div class="countdown-labels"><span>Days</span><span>Hours</span><span>Min</span><span>Sec</span></div>
+      </div>
+
+      <div class="stage">
+        <div class="sunburst"></div>
+        <div class="figure" id="figure"><!-- يتملي من script.js (صورة أو SVG) --></div>
+        <span class="note n1">♪</span><span class="note n2">♫</span><span class="note n3">♪</span>
+        <div id="stairs" class="stairs"></div>
+      </div>
+    </section>
+
+    <!-- ============ 2) الرسالة + RSVP ============ -->
+    <section class="message">
+      <div class="deco-wings left"></div>
+      <div class="deco-wings right"></div>
+      <div class="arch reveal">
+        <div class="sun"></div>
+        <p class="arabic" data-bind="arabicLine"></p>
+        <p class="english" data-bind="englishMessage"></p>
+        <a class="pill" id="rsvpBtn" href="#" target="_blank" rel="noopener">Kindly RSVP here</a>
+      </div>
+      <div class="musicians" aria-hidden="true">
+        <svg class="mus left" viewBox="0 0 140 210" id="musL"></svg>
+        <svg class="mus right" viewBox="0 0 140 210" id="musR"></svg>
+      </div>
+    </section>
+
+    <!-- ============ 3) التفاصيل: المكان + التاريخ + الوقت ============ -->
+    <section class="details">
+      <div class="side-art left" aria-hidden="true"></div>
+      <div class="side-art right" aria-hidden="true"></div>
+
+      <div class="chandelier reveal" id="chandelier" aria-hidden="true"></div>
+
+      <div class="detail reveal">
+        <svg class="icon" viewBox="0 0 64 40" aria-hidden="true">
+          <path d="M8 30c8 8 14-2 20 2s12-14 20-14" fill="none" stroke="#5a0f1f" stroke-width="2" stroke-dasharray="3 4" stroke-linecap="round"/>
+          <path d="M10 6a6 6 0 0 0-6 6c0 5 6 11 6 11s6-6 6-11a6 6 0 0 0-6-6zm0 8.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z" fill="#5a0f1f"/>
+          <path d="M50 6a6 6 0 0 0-6 6c0 5 6 11 6 11s6-6 6-11a6 6 0 0 0-6-6zm0 8.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z" fill="#5a0f1f"/>
+        </svg>
+        <p class="detail-title" data-bind="venueName"></p>
+        <p class="detail-title" data-bind="venueCity"></p>
+        <a class="pill small" id="mapBtn" href="#" target="_blank" rel="noopener">Click here for location</a>
+      </div>
+
+      <div class="detail reveal">
+        <svg class="icon cal" viewBox="0 0 48 48" aria-hidden="true">
+          <rect x="5" y="9" width="38" height="34" rx="3" fill="#efe3cc" stroke="#5a0f1f" stroke-width="2"/>
+          <rect x="5" y="9" width="38" height="8" rx="3" fill="#5a0f1f"/>
+          <path d="M14 5v8M34 5v8" stroke="#5a0f1f" stroke-width="3" stroke-linecap="round"/>
+          <g fill="#5a0f1f" opacity=".75">
+            <rect x="10" y="22" width="5" height="4"/><rect x="18" y="22" width="5" height="4"/><rect x="26" y="22" width="5" height="4"/><rect x="34" y="22" width="5" height="4"/>
+            <rect x="10" y="29" width="5" height="4"/><rect x="18" y="29" width="5" height="4"/><rect x="26" y="29" width="5" height="4"/><rect x="34" y="29" width="5" height="4"/>
+            <rect x="10" y="36" width="5" height="4"/><rect x="18" y="36" width="5" height="4"/>
+          </g>
+        </svg>
+        <p class="detail-title"><span id="dateLine"></span></p>
+        <p class="detail-title" id="weekdayLine"></p>
+      </div>
+
+      <div class="detail reveal">
+        <svg class="icon" viewBox="0 0 48 52" aria-hidden="true">
+          <rect x="21" y="2" width="6" height="5" fill="#5a0f1f"/>
+          <circle cx="24" cy="30" r="18" fill="#efe3cc" stroke="#5a0f1f" stroke-width="2.5"/>
+          <circle cx="24" cy="30" r="14" fill="none" stroke="#b8924a" stroke-width="1"/>
+          <path d="M24 30V19M24 30l8 4" stroke="#5a0f1f" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="24" cy="30" r="1.8" fill="#5a0f1f"/>
+        </svg>
+        <p class="detail-title">STARTS AT</p>
+        <p class="detail-title" id="timeLine"></p>
+      </div>
+
+      <div class="palace" id="palace" aria-hidden="true"></div>
+    </section>
+
+    <footer class="foot">
+      <p data-bind="footerText"></p>
+    </footer>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
